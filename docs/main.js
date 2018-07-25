@@ -1,7 +1,8 @@
 const myId = (new MediaStream).id;
 console.log(`myId:${myId}`);
 let stream = null;
-const skywayApiKey = '6116551f-321e-4a11-9cac-d2650671232a';
+const skywayApiKey = 'b5d5365a-02bb-4c13-9958-01be0a4c0867';
+const roomName = 'hoge_fuga_piyo_sfu';
 function appendVideo(stream) {
     const video = document.createElement('video');
     video.srcObject = stream;
@@ -19,13 +20,13 @@ navigator.mediaDevices.getUserMedia(constraints).then(stream => {
     });
     peer.on('open', id => {
         myIdDisp.textContent = id;
-        const room = peer.joinRoom('hoge_fuga_piyo_sfu', { mode: 'sfu', stream });
+        const room = peer.joinRoom(roomName, { mode: 'sfu', stream });
         room.on('stream', stream => {
             console.log(`room on stream peerId:${stream.peerId}`);
             appendVideo(stream);
             const dummyPeer = new Peer({ key: skywayApiKey });
             dummyPeer.on('open', _ => {
-                const dummyRoom = dummyPeer.joinRoom('hoge_fuga_piyo_sfu', { mode: 'sfu' });
+                const dummyRoom = dummyPeer.joinRoom(roomName, { mode: 'sfu' });
                 dummyRoom.on('open', _ => dummyRoom.close());
                 dummyRoom.on('close', _ => dummyPeer.destroy());
             });
