@@ -24,7 +24,11 @@ navigator.mediaDevices.getUserMedia(constraints).then(stream => {
             console.log(`room on stream peerId:${stream.peerId}`);
             appendVideo(stream);
             const dummyPeer = new Peer({ key: skywayApiKey });
-            dummyPeer.on('open', _ => dummyPeer.close());
+            dummyPeer.on('open', _ => {
+                const dummyRoom = dummyPeer.joinRoom('hoge_fuga_piyo_sfu', { mode: 'sfu' });
+                dummyRoom.on('open', dummpyRoom.close());
+                dummyRoom.on('close', dummyPeer.destroy());
+            });
             dummyPeer.on('error', err => console.error(err));
         });
     });
