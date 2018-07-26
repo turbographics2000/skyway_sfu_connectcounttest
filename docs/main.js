@@ -21,9 +21,7 @@ navigator.mediaDevices.getUserMedia(constraints).then(stream => {
     peer.on('open', id => {
         myIdDisp.textContent = id;
         const room = peer.joinRoom(roomName, { mode: 'sfu', stream });
-        room.on('stream', stream => {
-            console.log(`room on stream peerId:${stream.peerId}`);
-            appendVideo(stream);
+        room.on('open', peerId => {
             const dummyPeer = new Peer({ key: skywayApiKey });
             dummyPeer.on('open', _ => {
                 const dummyRoom = dummyPeer.joinRoom(roomName, { mode: 'sfu' });
@@ -31,6 +29,10 @@ navigator.mediaDevices.getUserMedia(constraints).then(stream => {
                 dummyRoom.on('close', _ => dummyPeer.destroy());
             });
             dummyPeer.on('error', err => console.error(err));
+        });
+        room.on('stream', stream => {
+            console.log(`room on stream peerId:${stream.peerId}`);
+            appendVideo(stream);
         });
     });
 }).catch(err => {
