@@ -1,7 +1,7 @@
 const myId = (new MediaStream).id;
 console.log(`myId:${myId}`);
 let stream = null;
-const skywayApiKey = 'b5d5365a-02bb-4c13-9958-01be0a4c0867';
+const skywayApiKey = 'b205952e-1ecc-4741-98a7-386c99a314ad';
 const roomName = 'hoge_fuga_piyo_sfu';
 function appendVideo(stream) {
     const video = document.createElement('video');
